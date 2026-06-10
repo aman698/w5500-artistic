@@ -8,7 +8,8 @@
 #include "stm8s_spi.h"
 #include "stm8s_exti.h"
 #include "stm8s_uart1.h"
-
+#include "wizchip_conf.h"
+#include "socket.h"
 #include "w5500.h"
 
 #define USE_FULL_ASSERT 0

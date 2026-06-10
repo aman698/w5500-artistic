@@ -1,437 +1,910 @@
    1                     ; C Compiler for STM8 (COSMIC Software)
    2                     ; Parser V4.13.3 - 22 May 2025
    3                     ; Generator (Limited) V4.6.6 - 07 Jan 2026
-  43                     ; 5 void W5500_Select(void)
-  43                     ; 6 {
-  45                     	switch	.text
-  46  0000               _W5500_Select:
-  50                     ; 7     GPIO_WriteLow(W5500_CS_PORT,W5500_CS_PIN);
-  52  0000 4b08          	push	#8
-  53  0002 ae5000        	ldw	x,#20480
-  54  0005 cd0000        	call	_GPIO_WriteLow
-  56  0008 84            	pop	a
-  57                     ; 8 }
-  60  0009 81            	ret
-  84                     ; 10 void W5500_Unselect(void)
-  84                     ; 11 {
-  85                     	switch	.text
-  86  000a               _W5500_Unselect:
-  90                     ; 12     GPIO_WriteHigh(W5500_CS_PORT,W5500_CS_PIN);
-  92  000a 4b08          	push	#8
-  93  000c ae5000        	ldw	x,#20480
-  94  000f cd0000        	call	_GPIO_WriteHigh
-  96  0012 84            	pop	a
-  97                     ; 13 }
- 100  0013 81            	ret
- 137                     ; 15 uint8_t W5500_SendByte(uint8_t data)
- 137                     ; 16 {
- 138                     	switch	.text
- 139  0014               _W5500_SendByte:
- 143                     ; 17     SPI_SendData(data);
- 145  0014 cd0000        	call	_SPI_SendData
- 148  0017               L15:
- 149                     ; 19     while(SPI_GetFlagStatus(SPI_FLAG_RXNE)==RESET);
- 151  0017 a601          	ld	a,#1
- 152  0019 cd0000        	call	_SPI_GetFlagStatus
- 154  001c 4d            	tnz	a
- 155  001d 27f8          	jreq	L15
- 156                     ; 21     return SPI_ReceiveData();
- 158  001f cd0000        	call	_SPI_ReceiveData
- 162  0022 81            	ret
- 187                     ; 24 void W5500_GPIO_Init(void)
- 187                     ; 25 {
- 188                     	switch	.text
- 189  0023               _W5500_GPIO_Init:
- 193                     ; 26     GPIO_Init(GPIOC,
- 193                     ; 27               GPIO_PIN_5,
- 193                     ; 28               GPIO_MODE_OUT_PP_HIGH_FAST);
- 195  0023 4bf0          	push	#240
- 196  0025 4b20          	push	#32
- 197  0027 ae500a        	ldw	x,#20490
- 198  002a cd0000        	call	_GPIO_Init
- 200  002d 85            	popw	x
- 201                     ; 30     GPIO_Init(GPIOC,
- 201                     ; 31               GPIO_PIN_6,
- 201                     ; 32               GPIO_MODE_OUT_PP_HIGH_FAST);
- 203  002e 4bf0          	push	#240
- 204  0030 4b40          	push	#64
- 205  0032 ae500a        	ldw	x,#20490
- 206  0035 cd0000        	call	_GPIO_Init
- 208  0038 85            	popw	x
- 209                     ; 34     GPIO_Init(GPIOC,
- 209                     ; 35               GPIO_PIN_7,
- 209                     ; 36               GPIO_MODE_IN_FL_NO_IT);
- 211  0039 4b00          	push	#0
- 212  003b 4b80          	push	#128
- 213  003d ae500a        	ldw	x,#20490
- 214  0040 cd0000        	call	_GPIO_Init
- 216  0043 85            	popw	x
- 217                     ; 38     GPIO_Init(GPIOA,
- 217                     ; 39               GPIO_PIN_3,
- 217                     ; 40               GPIO_MODE_OUT_PP_HIGH_FAST);
- 219  0044 4bf0          	push	#240
- 220  0046 4b08          	push	#8
- 221  0048 ae5000        	ldw	x,#20480
- 222  004b cd0000        	call	_GPIO_Init
- 224  004e 85            	popw	x
- 225                     ; 42     GPIO_Init(GPIOE,
- 225                     ; 43               GPIO_PIN_5,
- 225                     ; 44               GPIO_MODE_OUT_PP_HIGH_FAST);
- 227  004f 4bf0          	push	#240
- 228  0051 4b20          	push	#32
- 229  0053 ae5014        	ldw	x,#20500
- 230  0056 cd0000        	call	_GPIO_Init
- 232  0059 85            	popw	x
- 233                     ; 46     GPIO_WriteHigh(GPIOA,GPIO_PIN_3);
- 235  005a 4b08          	push	#8
- 236  005c ae5000        	ldw	x,#20480
- 237  005f cd0000        	call	_GPIO_WriteHigh
- 239  0062 84            	pop	a
- 240                     ; 47 }
- 243  0063 81            	ret
- 269                     ; 49 void W5500_SPI_Init(void)
- 269                     ; 50 {
- 270                     	switch	.text
- 271  0064               _W5500_SPI_Init:
- 275                     ; 51     SPI_DeInit();
- 277  0064 cd0000        	call	_SPI_DeInit
- 279                     ; 53     SPI_Init(
- 279                     ; 54         SPI_FIRSTBIT_MSB,
- 279                     ; 55         SPI_BAUDRATEPRESCALER_8,
- 279                     ; 56         SPI_MODE_MASTER,
- 279                     ; 57         SPI_CLOCKPOLARITY_LOW,
- 279                     ; 58         SPI_CLOCKPHASE_1EDGE,
- 279                     ; 59         SPI_DATADIRECTION_2LINES_FULLDUPLEX,
- 279                     ; 60         SPI_NSS_SOFT,
- 279                     ; 61         0x07);
- 281  0067 4b07          	push	#7
- 282  0069 4b02          	push	#2
- 283  006b 4b00          	push	#0
- 284  006d 4b00          	push	#0
- 285  006f 4b00          	push	#0
- 286  0071 4b04          	push	#4
- 287  0073 ae0010        	ldw	x,#16
- 288  0076 cd0000        	call	_SPI_Init
- 290  0079 5b06          	addw	sp,#6
- 291                     ; 63     SPI_Cmd(ENABLE);
- 293  007b a601          	ld	a,#1
- 294  007d cd0000        	call	_SPI_Cmd
- 296                     ; 64 }
- 299  0080 81            	ret
- 336                     .const:	section	.text
- 337  0000               L02:
- 338  0000 00007530      	dc.l	30000
- 339  0004               L22:
- 340  0004 0000ea60      	dc.l	60000
- 341                     ; 66 void W5500_Hardware_Reset(void)
- 341                     ; 67 {
- 342                     	switch	.text
- 343  0081               _W5500_Hardware_Reset:
- 345  0081 5204          	subw	sp,#4
- 346       00000004      OFST:	set	4
- 349                     ; 70     GPIO_WriteLow(GPIOE,GPIO_PIN_5);
- 351  0083 4b20          	push	#32
- 352  0085 ae5014        	ldw	x,#20500
- 353  0088 cd0000        	call	_GPIO_WriteLow
- 355  008b 84            	pop	a
- 356                     ; 72     for(i=0;i<30000;i++);
- 358  008c ae0000        	ldw	x,#0
- 359  008f 1f03          	ldw	(OFST-1,sp),x
- 360  0091 ae0000        	ldw	x,#0
- 361  0094 1f01          	ldw	(OFST-3,sp),x
- 364  0096 2009          	jra	L711
- 365  0098               L311:
- 369  0098 96            	ldw	x,sp
- 370  0099 1c0001        	addw	x,#OFST-3
- 371  009c a601          	ld	a,#1
- 372  009e cd0000        	call	c_lgadc
- 375  00a1               L711:
- 378  00a1 96            	ldw	x,sp
- 379  00a2 1c0001        	addw	x,#OFST-3
- 380  00a5 cd0000        	call	c_ltor
- 382  00a8 ae0000        	ldw	x,#L02
- 383  00ab cd0000        	call	c_lcmp
- 385  00ae 25e8          	jrult	L311
- 386                     ; 74     GPIO_WriteHigh(GPIOE,GPIO_PIN_5);
- 388  00b0 4b20          	push	#32
- 389  00b2 ae5014        	ldw	x,#20500
- 390  00b5 cd0000        	call	_GPIO_WriteHigh
- 392  00b8 84            	pop	a
- 393                     ; 76     for(i=0;i<60000;i++);
- 395  00b9 ae0000        	ldw	x,#0
- 396  00bc 1f03          	ldw	(OFST-1,sp),x
- 397  00be ae0000        	ldw	x,#0
- 398  00c1 1f01          	ldw	(OFST-3,sp),x
- 401  00c3 2009          	jra	L721
- 402  00c5               L321:
- 406  00c5 96            	ldw	x,sp
- 407  00c6 1c0001        	addw	x,#OFST-3
- 408  00c9 a601          	ld	a,#1
- 409  00cb cd0000        	call	c_lgadc
- 412  00ce               L721:
- 415  00ce 96            	ldw	x,sp
- 416  00cf 1c0001        	addw	x,#OFST-3
- 417  00d2 cd0000        	call	c_ltor
- 419  00d5 ae0004        	ldw	x,#L22
- 420  00d8 cd0000        	call	c_lcmp
- 422  00db 25e8          	jrult	L321
- 423                     ; 77 }
- 426  00dd 5b04          	addw	sp,#4
- 427  00df 81            	ret
- 473                     ; 79 void W5500_WriteReg(uint16_t addr,uint8_t data)
- 473                     ; 80 {
- 474                     	switch	.text
- 475  00e0               _W5500_WriteReg:
- 477  00e0 89            	pushw	x
- 478       00000000      OFST:	set	0
- 481                     ; 81     W5500_Select();
- 483  00e1 cd0000        	call	_W5500_Select
- 485                     ; 83     W5500_SendByte(addr >> 8);
- 487  00e4 7b01          	ld	a,(OFST+1,sp)
- 488  00e6 cd0014        	call	_W5500_SendByte
- 490                     ; 84     W5500_SendByte(addr & 0xFF);
- 492  00e9 7b02          	ld	a,(OFST+2,sp)
- 493  00eb a4ff          	and	a,#255
- 494  00ed cd0014        	call	_W5500_SendByte
- 496                     ; 87     W5500_SendByte(0x04);
- 498  00f0 a604          	ld	a,#4
- 499  00f2 cd0014        	call	_W5500_SendByte
- 501                     ; 89     W5500_SendByte(data);
- 503  00f5 7b05          	ld	a,(OFST+5,sp)
- 504  00f7 cd0014        	call	_W5500_SendByte
- 506                     ; 91     W5500_Unselect();
- 508  00fa cd000a        	call	_W5500_Unselect
- 510                     ; 92 }
- 513  00fd 85            	popw	x
- 514  00fe 81            	ret
- 560                     ; 94 uint8_t W5500_ReadReg(uint16_t addr)
- 560                     ; 95 {
- 561                     	switch	.text
- 562  00ff               _W5500_ReadReg:
- 564  00ff 89            	pushw	x
- 565  0100 88            	push	a
- 566       00000001      OFST:	set	1
- 569                     ; 98     W5500_Select();
- 571  0101 cd0000        	call	_W5500_Select
- 573                     ; 100     W5500_SendByte(addr >> 8);
- 575  0104 7b02          	ld	a,(OFST+1,sp)
- 576  0106 cd0014        	call	_W5500_SendByte
- 578                     ; 101     W5500_SendByte(addr & 0xFF);
- 580  0109 7b03          	ld	a,(OFST+2,sp)
- 581  010b a4ff          	and	a,#255
- 582  010d cd0014        	call	_W5500_SendByte
- 584                     ; 104     W5500_SendByte(0x00);
- 586  0110 4f            	clr	a
- 587  0111 cd0014        	call	_W5500_SendByte
- 589                     ; 106     value = W5500_SendByte(0xFF);
- 591  0114 a6ff          	ld	a,#255
- 592  0116 cd0014        	call	_W5500_SendByte
- 594  0119 6b01          	ld	(OFST+0,sp),a
- 596                     ; 108     W5500_Unselect();
- 598  011b cd000a        	call	_W5500_Unselect
- 600                     ; 110     return value;
- 602  011e 7b01          	ld	a,(OFST+0,sp)
- 605  0120 5b03          	addw	sp,#3
- 606  0122 81            	ret
- 609                     	switch	.const
- 610  0008               L771_mac:
- 611  0008 00            	dc.b	0
- 612  0009 08            	dc.b	8
- 613  000a dc            	dc.b	220
- 614  000b 11            	dc.b	17
- 615  000c 22            	dc.b	34
- 616  000d 33            	dc.b	51
- 617  000e               L102_ip:
- 618  000e c0            	dc.b	192
- 619  000f a8            	dc.b	168
- 620  0010 64            	dc.b	100
- 621  0011 34            	dc.b	52
- 622  0012               L302_sn:
- 623  0012 ff            	dc.b	255
- 624  0013 ff            	dc.b	255
- 625  0014 ff            	dc.b	255
- 626  0015 00            	dc.b	0
- 627  0016               L502_gw:
- 628  0016 c0            	dc.b	192
- 629  0017 a8            	dc.b	168
- 630  0018 64            	dc.b	100
- 631  0019 01            	dc.b	1
- 704                     ; 113 void W5500_Init(void)
- 704                     ; 114 {
- 705                     	switch	.text
- 706  0123               _W5500_Init:
- 708  0123 5213          	subw	sp,#19
- 709       00000013      OFST:	set	19
- 712                     ; 117     uint8_t mac[6] =
- 712                     ; 118     {
- 712                     ; 119         0x00,0x08,0xDC,
- 712                     ; 120         0x11,0x22,0x33
- 712                     ; 121     };
- 714  0125 96            	ldw	x,sp
- 715  0126 1c0001        	addw	x,#OFST-18
- 716  0129 90ae0008      	ldw	y,#L771_mac
- 717  012d a606          	ld	a,#6
- 718  012f cd0000        	call	c_xymov
- 720                     ; 123     uint8_t ip[4] =
- 720                     ; 124     {
- 720                     ; 125         192,168,100,52
- 720                     ; 126     };
- 722  0132 96            	ldw	x,sp
- 723  0133 1c0007        	addw	x,#OFST-12
- 724  0136 90ae000e      	ldw	y,#L102_ip
- 725  013a a604          	ld	a,#4
- 726  013c cd0000        	call	c_xymov
- 728                     ; 128     uint8_t sn[4] =
- 728                     ; 129     {
- 728                     ; 130         255,255,255,0
- 728                     ; 131     };
- 730  013f 96            	ldw	x,sp
- 731  0140 1c000b        	addw	x,#OFST-8
- 732  0143 90ae0012      	ldw	y,#L302_sn
- 733  0147 a604          	ld	a,#4
- 734  0149 cd0000        	call	c_xymov
- 736                     ; 133     uint8_t gw[4] =
- 736                     ; 134     {
- 736                     ; 135         192,168,100,1
- 736                     ; 136     };
- 738  014c 96            	ldw	x,sp
- 739  014d 1c000f        	addw	x,#OFST-4
- 740  0150 90ae0016      	ldw	y,#L502_gw
- 741  0154 a604          	ld	a,#4
- 742  0156 cd0000        	call	c_xymov
- 744                     ; 138     W5500_WriteReg(MR,0x80);
- 746  0159 4b80          	push	#128
- 747  015b 5f            	clrw	x
- 748  015c ad82          	call	_W5500_WriteReg
- 750  015e 84            	pop	a
- 751                     ; 140     for(i=0;i<4;i++)
- 753  015f 0f13          	clr	(OFST+0,sp)
- 755  0161               L542:
- 756                     ; 141         W5500_WriteReg(GAR+i,gw[i]);
- 758  0161 96            	ldw	x,sp
- 759  0162 1c000f        	addw	x,#OFST-4
- 760  0165 9f            	ld	a,xl
- 761  0166 5e            	swapw	x
- 762  0167 1b13          	add	a,(OFST+0,sp)
- 763  0169 2401          	jrnc	L23
- 764  016b 5c            	incw	x
- 765  016c               L23:
- 766  016c 02            	rlwa	x,a
- 767  016d f6            	ld	a,(x)
- 768  016e 88            	push	a
- 769  016f 7b14          	ld	a,(OFST+1,sp)
- 770  0171 5f            	clrw	x
- 771  0172 97            	ld	xl,a
- 772  0173 5c            	incw	x
- 773  0174 cd00e0        	call	_W5500_WriteReg
- 775  0177 84            	pop	a
- 776                     ; 140     for(i=0;i<4;i++)
- 778  0178 0c13          	inc	(OFST+0,sp)
- 782  017a 7b13          	ld	a,(OFST+0,sp)
- 783  017c a104          	cp	a,#4
- 784  017e 25e1          	jrult	L542
- 785                     ; 143     for(i=0;i<4;i++)
- 787  0180 0f13          	clr	(OFST+0,sp)
- 789  0182               L352:
- 790                     ; 144         W5500_WriteReg(SUBR+i,sn[i]);
- 792  0182 96            	ldw	x,sp
- 793  0183 1c000b        	addw	x,#OFST-8
- 794  0186 9f            	ld	a,xl
- 795  0187 5e            	swapw	x
- 796  0188 1b13          	add	a,(OFST+0,sp)
- 797  018a 2401          	jrnc	L43
- 798  018c 5c            	incw	x
- 799  018d               L43:
- 800  018d 02            	rlwa	x,a
- 801  018e f6            	ld	a,(x)
- 802  018f 88            	push	a
- 803  0190 7b14          	ld	a,(OFST+1,sp)
- 804  0192 5f            	clrw	x
- 805  0193 97            	ld	xl,a
- 806  0194 1c0005        	addw	x,#5
- 807  0197 cd00e0        	call	_W5500_WriteReg
- 809  019a 84            	pop	a
- 810                     ; 143     for(i=0;i<4;i++)
- 812  019b 0c13          	inc	(OFST+0,sp)
- 816  019d 7b13          	ld	a,(OFST+0,sp)
- 817  019f a104          	cp	a,#4
- 818  01a1 25df          	jrult	L352
- 819                     ; 146     for(i=0;i<6;i++)
- 821  01a3 0f13          	clr	(OFST+0,sp)
- 823  01a5               L162:
- 824                     ; 147         W5500_WriteReg(SHAR+i,mac[i]);
- 826  01a5 96            	ldw	x,sp
- 827  01a6 1c0001        	addw	x,#OFST-18
- 828  01a9 9f            	ld	a,xl
- 829  01aa 5e            	swapw	x
- 830  01ab 1b13          	add	a,(OFST+0,sp)
- 831  01ad 2401          	jrnc	L63
- 832  01af 5c            	incw	x
- 833  01b0               L63:
- 834  01b0 02            	rlwa	x,a
- 835  01b1 f6            	ld	a,(x)
- 836  01b2 88            	push	a
- 837  01b3 7b14          	ld	a,(OFST+1,sp)
- 838  01b5 5f            	clrw	x
- 839  01b6 97            	ld	xl,a
- 840  01b7 1c0009        	addw	x,#9
- 841  01ba cd00e0        	call	_W5500_WriteReg
- 843  01bd 84            	pop	a
- 844                     ; 146     for(i=0;i<6;i++)
- 846  01be 0c13          	inc	(OFST+0,sp)
- 850  01c0 7b13          	ld	a,(OFST+0,sp)
- 851  01c2 a106          	cp	a,#6
- 852  01c4 25df          	jrult	L162
- 853                     ; 149     for(i=0;i<4;i++)
- 855  01c6 0f13          	clr	(OFST+0,sp)
- 857  01c8               L762:
- 858                     ; 150         W5500_WriteReg(SIPR+i,ip[i]);
- 860  01c8 96            	ldw	x,sp
- 861  01c9 1c0007        	addw	x,#OFST-12
- 862  01cc 9f            	ld	a,xl
- 863  01cd 5e            	swapw	x
- 864  01ce 1b13          	add	a,(OFST+0,sp)
- 865  01d0 2401          	jrnc	L04
- 866  01d2 5c            	incw	x
- 867  01d3               L04:
- 868  01d3 02            	rlwa	x,a
- 869  01d4 f6            	ld	a,(x)
- 870  01d5 88            	push	a
- 871  01d6 7b14          	ld	a,(OFST+1,sp)
- 872  01d8 5f            	clrw	x
- 873  01d9 97            	ld	xl,a
- 874  01da 1c000f        	addw	x,#15
- 875  01dd cd00e0        	call	_W5500_WriteReg
- 877  01e0 84            	pop	a
- 878                     ; 149     for(i=0;i<4;i++)
- 880  01e1 0c13          	inc	(OFST+0,sp)
- 884  01e3 7b13          	ld	a,(OFST+0,sp)
- 885  01e5 a104          	cp	a,#4
- 886  01e7 25df          	jrult	L762
- 887                     ; 151 }
- 890  01e9 5b13          	addw	sp,#19
- 891  01eb 81            	ret
- 904                     	xdef	_W5500_SendByte
- 905                     	xdef	_W5500_Unselect
- 906                     	xdef	_W5500_Select
- 907                     	xdef	_W5500_WriteReg
- 908                     	xdef	_W5500_ReadReg
- 909                     	xdef	_W5500_Init
- 910                     	xdef	_W5500_Hardware_Reset
- 911                     	xdef	_W5500_SPI_Init
- 912                     	xdef	_W5500_GPIO_Init
- 913                     	xref	_SPI_GetFlagStatus
- 914                     	xref	_SPI_ReceiveData
- 915                     	xref	_SPI_SendData
- 916                     	xref	_SPI_Cmd
- 917                     	xref	_SPI_Init
- 918                     	xref	_SPI_DeInit
- 919                     	xref	_GPIO_WriteLow
- 920                     	xref	_GPIO_WriteHigh
- 921                     	xref	_GPIO_Init
- 922                     	xref.b	c_x
- 941                     	xref	c_xymov
- 942                     	xref	c_lcmp
- 943                     	xref	c_ltor
- 944                     	xref	c_lgadc
- 945                     	end
+  73                     ; 65 uint8_t  WIZCHIP_READ(uint32_t AddrSel)
+  73                     ; 66 {
+  75                     	switch	.text
+  76  0000               _WIZCHIP_READ:
+  78  0000 5204          	subw	sp,#4
+  79       00000004      OFST:	set	4
+  82                     ; 70    WIZCHIP_CRITICAL_ENTER();
+  84  0002 92cd08        	call	[_WIZCHIP+8.w]
+  86                     ; 71    WIZCHIP.CS._select();
+  88  0005 92cd0c        	call	[_WIZCHIP+12.w]
+  90                     ; 73    AddrSel |= (_W5500_SPI_READ_ | _W5500_SPI_VDM_OP_);
+  92                     ; 75    if(!WIZCHIP.IF._SPI._read_burst || !WIZCHIP.IF._SPI._write_burst) 	// byte operation
+  94  0008 be14          	ldw	x,_WIZCHIP+20
+  95  000a 2704          	jreq	L14
+  97  000c be16          	ldw	x,_WIZCHIP+22
+  98  000e 2625          	jrne	L73
+  99  0010               L14:
+ 100                     ; 77 	   WIZCHIP.IF._SPI._write_byte((AddrSel & 0x00FF0000) >> 16);
+ 102  0010 7b08          	ld	a,(OFST+4,sp)
+ 103  0012 a4ff          	and	a,#255
+ 104  0014 92cd12        	call	[_WIZCHIP+18.w]
+ 106                     ; 78 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x0000FF00) >>  8);
+ 108  0017 7b09          	ld	a,(OFST+5,sp)
+ 109  0019 a4ff          	and	a,#255
+ 110  001b 92cd12        	call	[_WIZCHIP+18.w]
+ 112                     ; 79 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x000000FF) >>  0);
+ 114  001e 7b0a          	ld	a,(OFST+6,sp)
+ 115  0020 a4ff          	and	a,#255
+ 116  0022 92cd12        	call	[_WIZCHIP+18.w]
+ 119  0025               L34:
+ 120                     ; 88    ret = WIZCHIP.IF._SPI._read_byte();
+ 122  0025 92cd10        	call	[_WIZCHIP+16.w]
+ 124  0028 6b01          	ld	(OFST-3,sp),a
+ 126                     ; 90    WIZCHIP.CS._deselect();
+ 128  002a 92cd0e        	call	[_WIZCHIP+14.w]
+ 130                     ; 91    WIZCHIP_CRITICAL_EXIT();
+ 132  002d 92cd0a        	call	[_WIZCHIP+10.w]
+ 134                     ; 92    return ret;
+ 136  0030 7b01          	ld	a,(OFST-3,sp)
+ 139  0032 5b04          	addw	sp,#4
+ 140  0034 81            	ret
+ 141  0035               L73:
+ 142                     ; 83 		spi_data[0] = (AddrSel & 0x00FF0000) >> 16;
+ 144  0035 7b08          	ld	a,(OFST+4,sp)
+ 145  0037 a4ff          	and	a,#255
+ 146  0039 6b02          	ld	(OFST-2,sp),a
+ 148                     ; 84 		spi_data[1] = (AddrSel & 0x0000FF00) >> 8;
+ 150  003b 7b09          	ld	a,(OFST+5,sp)
+ 151  003d a4ff          	and	a,#255
+ 152  003f 6b03          	ld	(OFST-1,sp),a
+ 154                     ; 85 		spi_data[2] = (AddrSel & 0x000000FF) >> 0;
+ 156  0041 7b0a          	ld	a,(OFST+6,sp)
+ 157  0043 a4ff          	and	a,#255
+ 158  0045 6b04          	ld	(OFST+0,sp),a
+ 160                     ; 86 		WIZCHIP.IF._SPI._write_burst(spi_data, 3);
+ 162  0047 ae0003        	ldw	x,#3
+ 163  004a 89            	pushw	x
+ 164  004b 96            	ldw	x,sp
+ 165  004c 1c0004        	addw	x,#OFST+0
+ 166  004f 92cd16        	call	[_WIZCHIP+22.w]
+ 168  0052 85            	popw	x
+ 169  0053 20d0          	jra	L34
+ 223                     ; 95 void     WIZCHIP_WRITE(uint32_t AddrSel, uint8_t wb )
+ 223                     ; 96 {
+ 224                     	switch	.text
+ 225  0055               _WIZCHIP_WRITE:
+ 227  0055 5204          	subw	sp,#4
+ 228       00000004      OFST:	set	4
+ 231                     ; 99    WIZCHIP_CRITICAL_ENTER();
+ 233  0057 92cd08        	call	[_WIZCHIP+8.w]
+ 235                     ; 100    WIZCHIP.CS._select();
+ 237  005a 92cd0c        	call	[_WIZCHIP+12.w]
+ 239                     ; 102    AddrSel |= (_W5500_SPI_WRITE_ | _W5500_SPI_VDM_OP_);
+ 241  005d 7b0a          	ld	a,(OFST+6,sp)
+ 242  005f aa04          	or	a,#4
+ 243  0061 6b0a          	ld	(OFST+6,sp),a
+ 244                     ; 105    if(!WIZCHIP.IF._SPI._write_burst) 	// byte operation
+ 246  0063 be16          	ldw	x,_WIZCHIP+22
+ 247  0065 261c          	jrne	L37
+ 248                     ; 107 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x00FF0000) >> 16);
+ 250  0067 7b08          	ld	a,(OFST+4,sp)
+ 251  0069 a4ff          	and	a,#255
+ 252  006b 92cd12        	call	[_WIZCHIP+18.w]
+ 254                     ; 108 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x0000FF00) >>  8);
+ 256  006e 7b09          	ld	a,(OFST+5,sp)
+ 257  0070 a4ff          	and	a,#255
+ 258  0072 92cd12        	call	[_WIZCHIP+18.w]
+ 260                     ; 109 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x000000FF) >>  0);
+ 262  0075 7b0a          	ld	a,(OFST+6,sp)
+ 263  0077 a4ff          	and	a,#255
+ 264  0079 92cd12        	call	[_WIZCHIP+18.w]
+ 266                     ; 110 		WIZCHIP.IF._SPI._write_byte(wb);
+ 268  007c 7b0b          	ld	a,(OFST+7,sp)
+ 269  007e 92cd12        	call	[_WIZCHIP+18.w]
+ 272  0081 2022          	jra	L57
+ 273  0083               L37:
+ 274                     ; 114 		spi_data[0] = (AddrSel & 0x00FF0000) >> 16;
+ 276  0083 7b08          	ld	a,(OFST+4,sp)
+ 277  0085 a4ff          	and	a,#255
+ 278  0087 6b01          	ld	(OFST-3,sp),a
+ 280                     ; 115 		spi_data[1] = (AddrSel & 0x0000FF00) >> 8;
+ 282  0089 7b09          	ld	a,(OFST+5,sp)
+ 283  008b a4ff          	and	a,#255
+ 284  008d 6b02          	ld	(OFST-2,sp),a
+ 286                     ; 116 		spi_data[2] = (AddrSel & 0x000000FF) >> 0;
+ 288  008f 7b0a          	ld	a,(OFST+6,sp)
+ 289  0091 a4ff          	and	a,#255
+ 290  0093 6b03          	ld	(OFST-1,sp),a
+ 292                     ; 117 		spi_data[3] = wb;
+ 294  0095 7b0b          	ld	a,(OFST+7,sp)
+ 295  0097 6b04          	ld	(OFST+0,sp),a
+ 297                     ; 118 		WIZCHIP.IF._SPI._write_burst(spi_data, 4);
+ 299  0099 ae0004        	ldw	x,#4
+ 300  009c 89            	pushw	x
+ 301  009d 96            	ldw	x,sp
+ 302  009e 1c0003        	addw	x,#OFST-1
+ 303  00a1 92cd16        	call	[_WIZCHIP+22.w]
+ 305  00a4 85            	popw	x
+ 306  00a5               L57:
+ 307                     ; 121    WIZCHIP.CS._deselect();
+ 309  00a5 92cd0e        	call	[_WIZCHIP+14.w]
+ 311                     ; 122    WIZCHIP_CRITICAL_EXIT();
+ 313  00a8 92cd0a        	call	[_WIZCHIP+10.w]
+ 315                     ; 123 }
+ 318  00ab 5b04          	addw	sp,#4
+ 319  00ad 81            	ret
+ 392                     ; 125 void     WIZCHIP_READ_BUF (uint32_t AddrSel, uint8_t* pBuf, uint16_t len)
+ 392                     ; 126 {
+ 393                     	switch	.text
+ 394  00ae               _WIZCHIP_READ_BUF:
+ 396  00ae 5205          	subw	sp,#5
+ 397       00000005      OFST:	set	5
+ 400                     ; 130    WIZCHIP_CRITICAL_ENTER();
+ 402  00b0 92cd08        	call	[_WIZCHIP+8.w]
+ 404                     ; 131    WIZCHIP.CS._select();
+ 406  00b3 92cd0c        	call	[_WIZCHIP+12.w]
+ 408                     ; 133    AddrSel |= (_W5500_SPI_READ_ | _W5500_SPI_VDM_OP_);
+ 410                     ; 135    if(!WIZCHIP.IF._SPI._read_burst || !WIZCHIP.IF._SPI._write_burst) 	// byte operation
+ 412  00b6 be14          	ldw	x,_WIZCHIP+20
+ 413  00b8 2704          	jreq	L731
+ 415  00ba be16          	ldw	x,_WIZCHIP+22
+ 416  00bc 2632          	jrne	L531
+ 417  00be               L731:
+ 418                     ; 137 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x00FF0000) >> 16);
+ 420  00be 7b09          	ld	a,(OFST+4,sp)
+ 421  00c0 a4ff          	and	a,#255
+ 422  00c2 92cd12        	call	[_WIZCHIP+18.w]
+ 424                     ; 138 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x0000FF00) >>  8);
+ 426  00c5 7b0a          	ld	a,(OFST+5,sp)
+ 427  00c7 a4ff          	and	a,#255
+ 428  00c9 92cd12        	call	[_WIZCHIP+18.w]
+ 430                     ; 139 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x000000FF) >>  0);
+ 432  00cc 7b0b          	ld	a,(OFST+6,sp)
+ 433  00ce a4ff          	and	a,#255
+ 434  00d0 92cd12        	call	[_WIZCHIP+18.w]
+ 436                     ; 140 		for(i = 0; i < len; i++)
+ 438  00d3 5f            	clrw	x
+ 439  00d4 1f04          	ldw	(OFST-1,sp),x
+ 442  00d6 2010          	jra	L541
+ 443  00d8               L141:
+ 444                     ; 141 		   pBuf[i] = WIZCHIP.IF._SPI._read_byte();
+ 446  00d8 92cd10        	call	[_WIZCHIP+16.w]
+ 448  00db 1e0c          	ldw	x,(OFST+7,sp)
+ 449  00dd 72fb04        	addw	x,(OFST-1,sp)
+ 450  00e0 f7            	ld	(x),a
+ 451                     ; 140 		for(i = 0; i < len; i++)
+ 453  00e1 1e04          	ldw	x,(OFST-1,sp)
+ 454  00e3 1c0001        	addw	x,#1
+ 455  00e6 1f04          	ldw	(OFST-1,sp),x
+ 457  00e8               L541:
+ 460  00e8 1e04          	ldw	x,(OFST-1,sp)
+ 461  00ea 130e          	cpw	x,(OFST+9,sp)
+ 462  00ec 25ea          	jrult	L141
+ 464  00ee 2027          	jra	L151
+ 465  00f0               L531:
+ 466                     ; 145 		spi_data[0] = (AddrSel & 0x00FF0000) >> 16;
+ 468  00f0 7b09          	ld	a,(OFST+4,sp)
+ 469  00f2 a4ff          	and	a,#255
+ 470  00f4 6b01          	ld	(OFST-4,sp),a
+ 472                     ; 146 		spi_data[1] = (AddrSel & 0x0000FF00) >> 8;
+ 474  00f6 7b0a          	ld	a,(OFST+5,sp)
+ 475  00f8 a4ff          	and	a,#255
+ 476  00fa 6b02          	ld	(OFST-3,sp),a
+ 478                     ; 147 		spi_data[2] = (AddrSel & 0x000000FF) >> 0;
+ 480  00fc 7b0b          	ld	a,(OFST+6,sp)
+ 481  00fe a4ff          	and	a,#255
+ 482  0100 6b03          	ld	(OFST-2,sp),a
+ 484                     ; 148 		WIZCHIP.IF._SPI._write_burst(spi_data, 3);
+ 486  0102 ae0003        	ldw	x,#3
+ 487  0105 89            	pushw	x
+ 488  0106 96            	ldw	x,sp
+ 489  0107 1c0003        	addw	x,#OFST-2
+ 490  010a 92cd16        	call	[_WIZCHIP+22.w]
+ 492  010d 85            	popw	x
+ 493                     ; 149 		WIZCHIP.IF._SPI._read_burst(pBuf, len);
+ 495  010e 1e0e          	ldw	x,(OFST+9,sp)
+ 496  0110 89            	pushw	x
+ 497  0111 1e0e          	ldw	x,(OFST+9,sp)
+ 498  0113 92cd14        	call	[_WIZCHIP+20.w]
+ 500  0116 85            	popw	x
+ 501  0117               L151:
+ 502                     ; 152    WIZCHIP.CS._deselect();
+ 504  0117 92cd0e        	call	[_WIZCHIP+14.w]
+ 506                     ; 153    WIZCHIP_CRITICAL_EXIT();
+ 508  011a 92cd0a        	call	[_WIZCHIP+10.w]
+ 510                     ; 154 }
+ 513  011d 5b05          	addw	sp,#5
+ 514  011f 81            	ret
+ 587                     ; 156 void     WIZCHIP_WRITE_BUF(uint32_t AddrSel, uint8_t* pBuf, uint16_t len)
+ 587                     ; 157 {
+ 588                     	switch	.text
+ 589  0120               _WIZCHIP_WRITE_BUF:
+ 591  0120 5205          	subw	sp,#5
+ 592       00000005      OFST:	set	5
+ 595                     ; 161    WIZCHIP_CRITICAL_ENTER();
+ 597  0122 92cd08        	call	[_WIZCHIP+8.w]
+ 599                     ; 162    WIZCHIP.CS._select();
+ 601  0125 92cd0c        	call	[_WIZCHIP+12.w]
+ 603                     ; 164    AddrSel |= (_W5500_SPI_WRITE_ | _W5500_SPI_VDM_OP_);
+ 605  0128 7b0b          	ld	a,(OFST+6,sp)
+ 606  012a aa04          	or	a,#4
+ 607  012c 6b0b          	ld	(OFST+6,sp),a
+ 608                     ; 166    if(!WIZCHIP.IF._SPI._write_burst) 	// byte operation
+ 610  012e be16          	ldw	x,_WIZCHIP+22
+ 611  0130 2632          	jrne	L112
+ 612                     ; 168 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x00FF0000) >> 16);
+ 614  0132 7b09          	ld	a,(OFST+4,sp)
+ 615  0134 a4ff          	and	a,#255
+ 616  0136 92cd12        	call	[_WIZCHIP+18.w]
+ 618                     ; 169 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x0000FF00) >>  8);
+ 620  0139 7b0a          	ld	a,(OFST+5,sp)
+ 621  013b a4ff          	and	a,#255
+ 622  013d 92cd12        	call	[_WIZCHIP+18.w]
+ 624                     ; 170 		WIZCHIP.IF._SPI._write_byte((AddrSel & 0x000000FF) >>  0);
+ 626  0140 7b0b          	ld	a,(OFST+6,sp)
+ 627  0142 a4ff          	and	a,#255
+ 628  0144 92cd12        	call	[_WIZCHIP+18.w]
+ 630                     ; 171 		for(i = 0; i < len; i++)
+ 632  0147 5f            	clrw	x
+ 633  0148 1f04          	ldw	(OFST-1,sp),x
+ 636  014a 2010          	jra	L712
+ 637  014c               L312:
+ 638                     ; 172 			WIZCHIP.IF._SPI._write_byte(pBuf[i]);
+ 640  014c 1e0c          	ldw	x,(OFST+7,sp)
+ 641  014e 72fb04        	addw	x,(OFST-1,sp)
+ 642  0151 f6            	ld	a,(x)
+ 643  0152 92cd12        	call	[_WIZCHIP+18.w]
+ 645                     ; 171 		for(i = 0; i < len; i++)
+ 647  0155 1e04          	ldw	x,(OFST-1,sp)
+ 648  0157 1c0001        	addw	x,#1
+ 649  015a 1f04          	ldw	(OFST-1,sp),x
+ 651  015c               L712:
+ 654  015c 1e04          	ldw	x,(OFST-1,sp)
+ 655  015e 130e          	cpw	x,(OFST+9,sp)
+ 656  0160 25ea          	jrult	L312
+ 658  0162 2027          	jra	L322
+ 659  0164               L112:
+ 660                     ; 176 		spi_data[0] = (AddrSel & 0x00FF0000) >> 16;
+ 662  0164 7b09          	ld	a,(OFST+4,sp)
+ 663  0166 a4ff          	and	a,#255
+ 664  0168 6b01          	ld	(OFST-4,sp),a
+ 666                     ; 177 		spi_data[1] = (AddrSel & 0x0000FF00) >> 8;
+ 668  016a 7b0a          	ld	a,(OFST+5,sp)
+ 669  016c a4ff          	and	a,#255
+ 670  016e 6b02          	ld	(OFST-3,sp),a
+ 672                     ; 178 		spi_data[2] = (AddrSel & 0x000000FF) >> 0;
+ 674  0170 7b0b          	ld	a,(OFST+6,sp)
+ 675  0172 a4ff          	and	a,#255
+ 676  0174 6b03          	ld	(OFST-2,sp),a
+ 678                     ; 179 		WIZCHIP.IF._SPI._write_burst(spi_data, 3);
+ 680  0176 ae0003        	ldw	x,#3
+ 681  0179 89            	pushw	x
+ 682  017a 96            	ldw	x,sp
+ 683  017b 1c0003        	addw	x,#OFST-2
+ 684  017e 92cd16        	call	[_WIZCHIP+22.w]
+ 686  0181 85            	popw	x
+ 687                     ; 180 		WIZCHIP.IF._SPI._write_burst(pBuf, len);
+ 689  0182 1e0e          	ldw	x,(OFST+9,sp)
+ 690  0184 89            	pushw	x
+ 691  0185 1e0e          	ldw	x,(OFST+9,sp)
+ 692  0187 92cd16        	call	[_WIZCHIP+22.w]
+ 694  018a 85            	popw	x
+ 695  018b               L322:
+ 696                     ; 183    WIZCHIP.CS._deselect();
+ 698  018b 92cd0e        	call	[_WIZCHIP+14.w]
+ 700                     ; 184    WIZCHIP_CRITICAL_EXIT();
+ 702  018e 92cd0a        	call	[_WIZCHIP+10.w]
+ 704                     ; 185 }
+ 707  0191 5b05          	addw	sp,#5
+ 708  0193 81            	ret
+ 761                     ; 188 uint16_t getSn_TX_FSR(uint8_t sn)
+ 761                     ; 189 {
+ 762                     	switch	.text
+ 763  0194               _getSn_TX_FSR:
+ 765  0194 88            	push	a
+ 766  0195 5205          	subw	sp,#5
+ 767       00000005      OFST:	set	5
+ 770                     ; 190    uint16_t val=0,val1=0;
+ 772  0197 5f            	clrw	x
+ 773  0198 1f02          	ldw	(OFST-3,sp),x
+ 777  019a               L352:
+ 778                     ; 194       val1 = WIZCHIP_READ(Sn_TX_FSR(sn));
+ 780  019a 7b06          	ld	a,(OFST+1,sp)
+ 781  019c 97            	ld	xl,a
+ 782  019d a604          	ld	a,#4
+ 783  019f 42            	mul	x,a
+ 784  01a0 58            	sllw	x
+ 785  01a1 58            	sllw	x
+ 786  01a2 58            	sllw	x
+ 787  01a3 1c2008        	addw	x,#8200
+ 788  01a6 cd0000        	call	c_itolx
+ 790  01a9 be02          	ldw	x,c_lreg+2
+ 791  01ab 89            	pushw	x
+ 792  01ac be00          	ldw	x,c_lreg
+ 793  01ae 89            	pushw	x
+ 794  01af cd0000        	call	_WIZCHIP_READ
+ 796  01b2 5b04          	addw	sp,#4
+ 797  01b4 5f            	clrw	x
+ 798  01b5 97            	ld	xl,a
+ 799  01b6 1f04          	ldw	(OFST-1,sp),x
+ 801                     ; 195       val1 = (val1 << 8) + WIZCHIP_READ(WIZCHIP_OFFSET_INC(Sn_TX_FSR(sn),1));
+ 803  01b8 7b06          	ld	a,(OFST+1,sp)
+ 804  01ba 97            	ld	xl,a
+ 805  01bb a604          	ld	a,#4
+ 806  01bd 42            	mul	x,a
+ 807  01be 58            	sllw	x
+ 808  01bf 58            	sllw	x
+ 809  01c0 58            	sllw	x
+ 810  01c1 1c2108        	addw	x,#8456
+ 811  01c4 cd0000        	call	c_itolx
+ 813  01c7 be02          	ldw	x,c_lreg+2
+ 814  01c9 89            	pushw	x
+ 815  01ca be00          	ldw	x,c_lreg
+ 816  01cc 89            	pushw	x
+ 817  01cd cd0000        	call	_WIZCHIP_READ
+ 819  01d0 5b04          	addw	sp,#4
+ 820  01d2 6b01          	ld	(OFST-4,sp),a
+ 822  01d4 1e04          	ldw	x,(OFST-1,sp)
+ 823  01d6 4f            	clr	a
+ 824  01d7 02            	rlwa	x,a
+ 825  01d8 01            	rrwa	x,a
+ 826  01d9 1b01          	add	a,(OFST-4,sp)
+ 827  01db 2401          	jrnc	L61
+ 828  01dd 5c            	incw	x
+ 829  01de               L61:
+ 830  01de 02            	rlwa	x,a
+ 831  01df 1f04          	ldw	(OFST-1,sp),x
+ 832  01e1 01            	rrwa	x,a
+ 834                     ; 196       if (val1 != 0)
+ 836  01e2 1e04          	ldw	x,(OFST-1,sp)
+ 837  01e4 2748          	jreq	L552
+ 838                     ; 198         val = WIZCHIP_READ(Sn_TX_FSR(sn));
+ 840  01e6 7b06          	ld	a,(OFST+1,sp)
+ 841  01e8 97            	ld	xl,a
+ 842  01e9 a604          	ld	a,#4
+ 843  01eb 42            	mul	x,a
+ 844  01ec 58            	sllw	x
+ 845  01ed 58            	sllw	x
+ 846  01ee 58            	sllw	x
+ 847  01ef 1c2008        	addw	x,#8200
+ 848  01f2 cd0000        	call	c_itolx
+ 850  01f5 be02          	ldw	x,c_lreg+2
+ 851  01f7 89            	pushw	x
+ 852  01f8 be00          	ldw	x,c_lreg
+ 853  01fa 89            	pushw	x
+ 854  01fb cd0000        	call	_WIZCHIP_READ
+ 856  01fe 5b04          	addw	sp,#4
+ 857  0200 5f            	clrw	x
+ 858  0201 97            	ld	xl,a
+ 859  0202 1f02          	ldw	(OFST-3,sp),x
+ 861                     ; 199         val = (val << 8) + WIZCHIP_READ(WIZCHIP_OFFSET_INC(Sn_TX_FSR(sn),1));
+ 863  0204 7b06          	ld	a,(OFST+1,sp)
+ 864  0206 97            	ld	xl,a
+ 865  0207 a604          	ld	a,#4
+ 866  0209 42            	mul	x,a
+ 867  020a 58            	sllw	x
+ 868  020b 58            	sllw	x
+ 869  020c 58            	sllw	x
+ 870  020d 1c2108        	addw	x,#8456
+ 871  0210 cd0000        	call	c_itolx
+ 873  0213 be02          	ldw	x,c_lreg+2
+ 874  0215 89            	pushw	x
+ 875  0216 be00          	ldw	x,c_lreg
+ 876  0218 89            	pushw	x
+ 877  0219 cd0000        	call	_WIZCHIP_READ
+ 879  021c 5b04          	addw	sp,#4
+ 880  021e 6b01          	ld	(OFST-4,sp),a
+ 882  0220 1e02          	ldw	x,(OFST-3,sp)
+ 883  0222 4f            	clr	a
+ 884  0223 02            	rlwa	x,a
+ 885  0224 01            	rrwa	x,a
+ 886  0225 1b01          	add	a,(OFST-4,sp)
+ 887  0227 2401          	jrnc	L02
+ 888  0229 5c            	incw	x
+ 889  022a               L02:
+ 890  022a 02            	rlwa	x,a
+ 891  022b 1f02          	ldw	(OFST-3,sp),x
+ 892  022d 01            	rrwa	x,a
+ 894  022e               L552:
+ 895                     ; 201    }while (val != val1);
+ 897  022e 1e02          	ldw	x,(OFST-3,sp)
+ 898  0230 1304          	cpw	x,(OFST-1,sp)
+ 899  0232 2703          	jreq	L22
+ 900  0234 cc019a        	jp	L352
+ 901  0237               L22:
+ 902                     ; 202    return val;
+ 904  0237 1e02          	ldw	x,(OFST-3,sp)
+ 907  0239 5b06          	addw	sp,#6
+ 908  023b 81            	ret
+ 961                     ; 206 uint16_t getSn_RX_RSR(uint8_t sn)
+ 961                     ; 207 {
+ 962                     	switch	.text
+ 963  023c               _getSn_RX_RSR:
+ 965  023c 88            	push	a
+ 966  023d 5205          	subw	sp,#5
+ 967       00000005      OFST:	set	5
+ 970                     ; 208    uint16_t val=0,val1=0;
+ 972  023f 5f            	clrw	x
+ 973  0240 1f02          	ldw	(OFST-3,sp),x
+ 977  0242               L113:
+ 978                     ; 212       val1 = WIZCHIP_READ(Sn_RX_RSR(sn));
+ 980  0242 7b06          	ld	a,(OFST+1,sp)
+ 981  0244 97            	ld	xl,a
+ 982  0245 a604          	ld	a,#4
+ 983  0247 42            	mul	x,a
+ 984  0248 58            	sllw	x
+ 985  0249 58            	sllw	x
+ 986  024a 58            	sllw	x
+ 987  024b 1c2608        	addw	x,#9736
+ 988  024e cd0000        	call	c_itolx
+ 990  0251 be02          	ldw	x,c_lreg+2
+ 991  0253 89            	pushw	x
+ 992  0254 be00          	ldw	x,c_lreg
+ 993  0256 89            	pushw	x
+ 994  0257 cd0000        	call	_WIZCHIP_READ
+ 996  025a 5b04          	addw	sp,#4
+ 997  025c 5f            	clrw	x
+ 998  025d 97            	ld	xl,a
+ 999  025e 1f04          	ldw	(OFST-1,sp),x
+1001                     ; 213       val1 = (val1 << 8) + WIZCHIP_READ(WIZCHIP_OFFSET_INC(Sn_RX_RSR(sn),1));
+1003  0260 7b06          	ld	a,(OFST+1,sp)
+1004  0262 97            	ld	xl,a
+1005  0263 a604          	ld	a,#4
+1006  0265 42            	mul	x,a
+1007  0266 58            	sllw	x
+1008  0267 58            	sllw	x
+1009  0268 58            	sllw	x
+1010  0269 1c2708        	addw	x,#9992
+1011  026c cd0000        	call	c_itolx
+1013  026f be02          	ldw	x,c_lreg+2
+1014  0271 89            	pushw	x
+1015  0272 be00          	ldw	x,c_lreg
+1016  0274 89            	pushw	x
+1017  0275 cd0000        	call	_WIZCHIP_READ
+1019  0278 5b04          	addw	sp,#4
+1020  027a 6b01          	ld	(OFST-4,sp),a
+1022  027c 1e04          	ldw	x,(OFST-1,sp)
+1023  027e 4f            	clr	a
+1024  027f 02            	rlwa	x,a
+1025  0280 01            	rrwa	x,a
+1026  0281 1b01          	add	a,(OFST-4,sp)
+1027  0283 2401          	jrnc	L62
+1028  0285 5c            	incw	x
+1029  0286               L62:
+1030  0286 02            	rlwa	x,a
+1031  0287 1f04          	ldw	(OFST-1,sp),x
+1032  0289 01            	rrwa	x,a
+1034                     ; 214       if (val1 != 0)
+1036  028a 1e04          	ldw	x,(OFST-1,sp)
+1037  028c 2748          	jreq	L313
+1038                     ; 216         val = WIZCHIP_READ(Sn_RX_RSR(sn));
+1040  028e 7b06          	ld	a,(OFST+1,sp)
+1041  0290 97            	ld	xl,a
+1042  0291 a604          	ld	a,#4
+1043  0293 42            	mul	x,a
+1044  0294 58            	sllw	x
+1045  0295 58            	sllw	x
+1046  0296 58            	sllw	x
+1047  0297 1c2608        	addw	x,#9736
+1048  029a cd0000        	call	c_itolx
+1050  029d be02          	ldw	x,c_lreg+2
+1051  029f 89            	pushw	x
+1052  02a0 be00          	ldw	x,c_lreg
+1053  02a2 89            	pushw	x
+1054  02a3 cd0000        	call	_WIZCHIP_READ
+1056  02a6 5b04          	addw	sp,#4
+1057  02a8 5f            	clrw	x
+1058  02a9 97            	ld	xl,a
+1059  02aa 1f02          	ldw	(OFST-3,sp),x
+1061                     ; 217         val = (val << 8) + WIZCHIP_READ(WIZCHIP_OFFSET_INC(Sn_RX_RSR(sn),1));
+1063  02ac 7b06          	ld	a,(OFST+1,sp)
+1064  02ae 97            	ld	xl,a
+1065  02af a604          	ld	a,#4
+1066  02b1 42            	mul	x,a
+1067  02b2 58            	sllw	x
+1068  02b3 58            	sllw	x
+1069  02b4 58            	sllw	x
+1070  02b5 1c2708        	addw	x,#9992
+1071  02b8 cd0000        	call	c_itolx
+1073  02bb be02          	ldw	x,c_lreg+2
+1074  02bd 89            	pushw	x
+1075  02be be00          	ldw	x,c_lreg
+1076  02c0 89            	pushw	x
+1077  02c1 cd0000        	call	_WIZCHIP_READ
+1079  02c4 5b04          	addw	sp,#4
+1080  02c6 6b01          	ld	(OFST-4,sp),a
+1082  02c8 1e02          	ldw	x,(OFST-3,sp)
+1083  02ca 4f            	clr	a
+1084  02cb 02            	rlwa	x,a
+1085  02cc 01            	rrwa	x,a
+1086  02cd 1b01          	add	a,(OFST-4,sp)
+1087  02cf 2401          	jrnc	L03
+1088  02d1 5c            	incw	x
+1089  02d2               L03:
+1090  02d2 02            	rlwa	x,a
+1091  02d3 1f02          	ldw	(OFST-3,sp),x
+1092  02d5 01            	rrwa	x,a
+1094  02d6               L313:
+1095                     ; 219    }while (val != val1);
+1097  02d6 1e02          	ldw	x,(OFST-3,sp)
+1098  02d8 1304          	cpw	x,(OFST-1,sp)
+1099  02da 2703          	jreq	L23
+1100  02dc cc0242        	jp	L113
+1101  02df               L23:
+1102                     ; 220    return val;
+1104  02df 1e02          	ldw	x,(OFST-3,sp)
+1107  02e1 5b06          	addw	sp,#6
+1108  02e3 81            	ret
+1182                     ; 223 void wiz_send_data(uint8_t sn, uint8_t *wizdata, uint16_t len)
+1182                     ; 224 {
+1183                     	switch	.text
+1184  02e4               _wiz_send_data:
+1186  02e4 88            	push	a
+1187  02e5 520a          	subw	sp,#10
+1188       0000000a      OFST:	set	10
+1191                     ; 225    uint16_t ptr = 0;
+1193                     ; 226    uint32_t addrsel = 0;
+1195                     ; 228    if(len == 0)  return;
+1197  02e7 1e10          	ldw	x,(OFST+6,sp)
+1198  02e9 2603          	jrne	L24
+1199  02eb cc03b1        	jp	L04
+1200  02ee               L24:
+1203                     ; 229    ptr = getSn_TX_WR(sn);
+1205  02ee 7b0b          	ld	a,(OFST+1,sp)
+1206  02f0 97            	ld	xl,a
+1207  02f1 a604          	ld	a,#4
+1208  02f3 42            	mul	x,a
+1209  02f4 58            	sllw	x
+1210  02f5 58            	sllw	x
+1211  02f6 58            	sllw	x
+1212  02f7 1c2508        	addw	x,#9480
+1213  02fa cd0000        	call	c_itolx
+1215  02fd be02          	ldw	x,c_lreg+2
+1216  02ff 89            	pushw	x
+1217  0300 be00          	ldw	x,c_lreg
+1218  0302 89            	pushw	x
+1219  0303 cd0000        	call	_WIZCHIP_READ
+1221  0306 5b04          	addw	sp,#4
+1222  0308 6b04          	ld	(OFST-6,sp),a
+1224  030a 7b0b          	ld	a,(OFST+1,sp)
+1225  030c 97            	ld	xl,a
+1226  030d a604          	ld	a,#4
+1227  030f 42            	mul	x,a
+1228  0310 58            	sllw	x
+1229  0311 58            	sllw	x
+1230  0312 58            	sllw	x
+1231  0313 1c2408        	addw	x,#9224
+1232  0316 cd0000        	call	c_itolx
+1234  0319 be02          	ldw	x,c_lreg+2
+1235  031b 89            	pushw	x
+1236  031c be00          	ldw	x,c_lreg
+1237  031e 89            	pushw	x
+1238  031f cd0000        	call	_WIZCHIP_READ
+1240  0322 5b04          	addw	sp,#4
+1241  0324 5f            	clrw	x
+1242  0325 97            	ld	xl,a
+1243  0326 4f            	clr	a
+1244  0327 02            	rlwa	x,a
+1245  0328 01            	rrwa	x,a
+1246  0329 1b04          	add	a,(OFST-6,sp)
+1247  032b 2401          	jrnc	L63
+1248  032d 5c            	incw	x
+1249  032e               L63:
+1250  032e 02            	rlwa	x,a
+1251  032f 1f09          	ldw	(OFST-1,sp),x
+1252  0331 01            	rrwa	x,a
+1254                     ; 232    addrsel = ((uint32_t)ptr << 8) + (WIZCHIP_TXBUF_BLOCK(sn) << 3);
+1256  0332 7b0b          	ld	a,(OFST+1,sp)
+1257  0334 97            	ld	xl,a
+1258  0335 a604          	ld	a,#4
+1259  0337 42            	mul	x,a
+1260  0338 58            	sllw	x
+1261  0339 58            	sllw	x
+1262  033a 58            	sllw	x
+1263  033b 1c0010        	addw	x,#16
+1264  033e cd0000        	call	c_itolx
+1266  0341 96            	ldw	x,sp
+1267  0342 1c0001        	addw	x,#OFST-9
+1268  0345 cd0000        	call	c_rtol
+1271  0348 1e09          	ldw	x,(OFST-1,sp)
+1272  034a 90ae0100      	ldw	y,#256
+1273  034e cd0000        	call	c_umul
+1275  0351 96            	ldw	x,sp
+1276  0352 1c0001        	addw	x,#OFST-9
+1277  0355 cd0000        	call	c_ladd
+1279  0358 96            	ldw	x,sp
+1280  0359 1c0005        	addw	x,#OFST-5
+1281  035c cd0000        	call	c_rtol
+1284                     ; 234    WIZCHIP_WRITE_BUF(addrsel,wizdata, len);
+1286  035f 1e10          	ldw	x,(OFST+6,sp)
+1287  0361 89            	pushw	x
+1288  0362 1e10          	ldw	x,(OFST+6,sp)
+1289  0364 89            	pushw	x
+1290  0365 1e0b          	ldw	x,(OFST+1,sp)
+1291  0367 89            	pushw	x
+1292  0368 1e0b          	ldw	x,(OFST+1,sp)
+1293  036a 89            	pushw	x
+1294  036b cd0120        	call	_WIZCHIP_WRITE_BUF
+1296  036e 5b08          	addw	sp,#8
+1297                     ; 236    ptr += len;
+1299  0370 1e09          	ldw	x,(OFST-1,sp)
+1300  0372 72fb10        	addw	x,(OFST+6,sp)
+1301  0375 1f09          	ldw	(OFST-1,sp),x
+1303                     ; 237    setSn_TX_WR(sn,ptr);
+1305  0377 7b09          	ld	a,(OFST-1,sp)
+1306  0379 88            	push	a
+1307  037a 7b0c          	ld	a,(OFST+2,sp)
+1308  037c 97            	ld	xl,a
+1309  037d a604          	ld	a,#4
+1310  037f 42            	mul	x,a
+1311  0380 58            	sllw	x
+1312  0381 58            	sllw	x
+1313  0382 58            	sllw	x
+1314  0383 1c2408        	addw	x,#9224
+1315  0386 cd0000        	call	c_itolx
+1317  0389 be02          	ldw	x,c_lreg+2
+1318  038b 89            	pushw	x
+1319  038c be00          	ldw	x,c_lreg
+1320  038e 89            	pushw	x
+1321  038f cd0055        	call	_WIZCHIP_WRITE
+1323  0392 5b05          	addw	sp,#5
+1326  0394 7b0a          	ld	a,(OFST+0,sp)
+1327  0396 88            	push	a
+1328  0397 7b0c          	ld	a,(OFST+2,sp)
+1329  0399 97            	ld	xl,a
+1330  039a a604          	ld	a,#4
+1331  039c 42            	mul	x,a
+1332  039d 58            	sllw	x
+1333  039e 58            	sllw	x
+1334  039f 58            	sllw	x
+1335  03a0 1c2508        	addw	x,#9480
+1336  03a3 cd0000        	call	c_itolx
+1338  03a6 be02          	ldw	x,c_lreg+2
+1339  03a8 89            	pushw	x
+1340  03a9 be00          	ldw	x,c_lreg
+1341  03ab 89            	pushw	x
+1342  03ac cd0055        	call	_WIZCHIP_WRITE
+1344  03af 5b05          	addw	sp,#5
+1345                     ; 238 }
+1346  03b1               L04:
+1350  03b1 5b0b          	addw	sp,#11
+1351  03b3 81            	ret
+1425                     ; 240 void wiz_recv_data(uint8_t sn, uint8_t *wizdata, uint16_t len)
+1425                     ; 241 {
+1426                     	switch	.text
+1427  03b4               _wiz_recv_data:
+1429  03b4 88            	push	a
+1430  03b5 520a          	subw	sp,#10
+1431       0000000a      OFST:	set	10
+1434                     ; 242    uint16_t ptr = 0;
+1436                     ; 243    uint32_t addrsel = 0;
+1438                     ; 245    if(len == 0) return;
+1440  03b7 1e10          	ldw	x,(OFST+6,sp)
+1441  03b9 2603          	jrne	L25
+1442  03bb cc0481        	jp	L05
+1443  03be               L25:
+1446                     ; 246    ptr = getSn_RX_RD(sn);
+1448  03be 7b0b          	ld	a,(OFST+1,sp)
+1449  03c0 97            	ld	xl,a
+1450  03c1 a604          	ld	a,#4
+1451  03c3 42            	mul	x,a
+1452  03c4 58            	sllw	x
+1453  03c5 58            	sllw	x
+1454  03c6 58            	sllw	x
+1455  03c7 1c2908        	addw	x,#10504
+1456  03ca cd0000        	call	c_itolx
+1458  03cd be02          	ldw	x,c_lreg+2
+1459  03cf 89            	pushw	x
+1460  03d0 be00          	ldw	x,c_lreg
+1461  03d2 89            	pushw	x
+1462  03d3 cd0000        	call	_WIZCHIP_READ
+1464  03d6 5b04          	addw	sp,#4
+1465  03d8 6b04          	ld	(OFST-6,sp),a
+1467  03da 7b0b          	ld	a,(OFST+1,sp)
+1468  03dc 97            	ld	xl,a
+1469  03dd a604          	ld	a,#4
+1470  03df 42            	mul	x,a
+1471  03e0 58            	sllw	x
+1472  03e1 58            	sllw	x
+1473  03e2 58            	sllw	x
+1474  03e3 1c2808        	addw	x,#10248
+1475  03e6 cd0000        	call	c_itolx
+1477  03e9 be02          	ldw	x,c_lreg+2
+1478  03eb 89            	pushw	x
+1479  03ec be00          	ldw	x,c_lreg
+1480  03ee 89            	pushw	x
+1481  03ef cd0000        	call	_WIZCHIP_READ
+1483  03f2 5b04          	addw	sp,#4
+1484  03f4 5f            	clrw	x
+1485  03f5 97            	ld	xl,a
+1486  03f6 4f            	clr	a
+1487  03f7 02            	rlwa	x,a
+1488  03f8 01            	rrwa	x,a
+1489  03f9 1b04          	add	a,(OFST-6,sp)
+1490  03fb 2401          	jrnc	L64
+1491  03fd 5c            	incw	x
+1492  03fe               L64:
+1493  03fe 02            	rlwa	x,a
+1494  03ff 1f09          	ldw	(OFST-1,sp),x
+1495  0401 01            	rrwa	x,a
+1497                     ; 249    addrsel = ((uint32_t)ptr << 8) + (WIZCHIP_RXBUF_BLOCK(sn) << 3);
+1499  0402 7b0b          	ld	a,(OFST+1,sp)
+1500  0404 97            	ld	xl,a
+1501  0405 a604          	ld	a,#4
+1502  0407 42            	mul	x,a
+1503  0408 58            	sllw	x
+1504  0409 58            	sllw	x
+1505  040a 58            	sllw	x
+1506  040b 1c0018        	addw	x,#24
+1507  040e cd0000        	call	c_itolx
+1509  0411 96            	ldw	x,sp
+1510  0412 1c0001        	addw	x,#OFST-9
+1511  0415 cd0000        	call	c_rtol
+1514  0418 1e09          	ldw	x,(OFST-1,sp)
+1515  041a 90ae0100      	ldw	y,#256
+1516  041e cd0000        	call	c_umul
+1518  0421 96            	ldw	x,sp
+1519  0422 1c0001        	addw	x,#OFST-9
+1520  0425 cd0000        	call	c_ladd
+1522  0428 96            	ldw	x,sp
+1523  0429 1c0005        	addw	x,#OFST-5
+1524  042c cd0000        	call	c_rtol
+1527                     ; 251    WIZCHIP_READ_BUF(addrsel, wizdata, len);
+1529  042f 1e10          	ldw	x,(OFST+6,sp)
+1530  0431 89            	pushw	x
+1531  0432 1e10          	ldw	x,(OFST+6,sp)
+1532  0434 89            	pushw	x
+1533  0435 1e0b          	ldw	x,(OFST+1,sp)
+1534  0437 89            	pushw	x
+1535  0438 1e0b          	ldw	x,(OFST+1,sp)
+1536  043a 89            	pushw	x
+1537  043b cd00ae        	call	_WIZCHIP_READ_BUF
+1539  043e 5b08          	addw	sp,#8
+1540                     ; 252    ptr += len;
+1542  0440 1e09          	ldw	x,(OFST-1,sp)
+1543  0442 72fb10        	addw	x,(OFST+6,sp)
+1544  0445 1f09          	ldw	(OFST-1,sp),x
+1546                     ; 254    setSn_RX_RD(sn,ptr);
+1548  0447 7b09          	ld	a,(OFST-1,sp)
+1549  0449 88            	push	a
+1550  044a 7b0c          	ld	a,(OFST+2,sp)
+1551  044c 97            	ld	xl,a
+1552  044d a604          	ld	a,#4
+1553  044f 42            	mul	x,a
+1554  0450 58            	sllw	x
+1555  0451 58            	sllw	x
+1556  0452 58            	sllw	x
+1557  0453 1c2808        	addw	x,#10248
+1558  0456 cd0000        	call	c_itolx
+1560  0459 be02          	ldw	x,c_lreg+2
+1561  045b 89            	pushw	x
+1562  045c be00          	ldw	x,c_lreg
+1563  045e 89            	pushw	x
+1564  045f cd0055        	call	_WIZCHIP_WRITE
+1566  0462 5b05          	addw	sp,#5
+1569  0464 7b0a          	ld	a,(OFST+0,sp)
+1570  0466 88            	push	a
+1571  0467 7b0c          	ld	a,(OFST+2,sp)
+1572  0469 97            	ld	xl,a
+1573  046a a604          	ld	a,#4
+1574  046c 42            	mul	x,a
+1575  046d 58            	sllw	x
+1576  046e 58            	sllw	x
+1577  046f 58            	sllw	x
+1578  0470 1c2908        	addw	x,#10504
+1579  0473 cd0000        	call	c_itolx
+1581  0476 be02          	ldw	x,c_lreg+2
+1582  0478 89            	pushw	x
+1583  0479 be00          	ldw	x,c_lreg
+1584  047b 89            	pushw	x
+1585  047c cd0055        	call	_WIZCHIP_WRITE
+1587  047f 5b05          	addw	sp,#5
+1588                     ; 255 }
+1589  0481               L05:
+1593  0481 5b0b          	addw	sp,#11
+1594  0483 81            	ret
+1648                     ; 258 void wiz_recv_ignore(uint8_t sn, uint16_t len)
+1648                     ; 259 {
+1649                     	switch	.text
+1650  0484               _wiz_recv_ignore:
+1652  0484 88            	push	a
+1653  0485 5203          	subw	sp,#3
+1654       00000003      OFST:	set	3
+1657                     ; 260    uint16_t ptr = 0;
+1659                     ; 262    ptr = getSn_RX_RD(sn);
+1661  0487 97            	ld	xl,a
+1662  0488 a604          	ld	a,#4
+1663  048a 42            	mul	x,a
+1664  048b 58            	sllw	x
+1665  048c 58            	sllw	x
+1666  048d 58            	sllw	x
+1667  048e 1c2908        	addw	x,#10504
+1668  0491 cd0000        	call	c_itolx
+1670  0494 be02          	ldw	x,c_lreg+2
+1671  0496 89            	pushw	x
+1672  0497 be00          	ldw	x,c_lreg
+1673  0499 89            	pushw	x
+1674  049a cd0000        	call	_WIZCHIP_READ
+1676  049d 5b04          	addw	sp,#4
+1677  049f 6b01          	ld	(OFST-2,sp),a
+1679  04a1 7b04          	ld	a,(OFST+1,sp)
+1680  04a3 97            	ld	xl,a
+1681  04a4 a604          	ld	a,#4
+1682  04a6 42            	mul	x,a
+1683  04a7 58            	sllw	x
+1684  04a8 58            	sllw	x
+1685  04a9 58            	sllw	x
+1686  04aa 1c2808        	addw	x,#10248
+1687  04ad cd0000        	call	c_itolx
+1689  04b0 be02          	ldw	x,c_lreg+2
+1690  04b2 89            	pushw	x
+1691  04b3 be00          	ldw	x,c_lreg
+1692  04b5 89            	pushw	x
+1693  04b6 cd0000        	call	_WIZCHIP_READ
+1695  04b9 5b04          	addw	sp,#4
+1696  04bb 5f            	clrw	x
+1697  04bc 97            	ld	xl,a
+1698  04bd 4f            	clr	a
+1699  04be 02            	rlwa	x,a
+1700  04bf 01            	rrwa	x,a
+1701  04c0 1b01          	add	a,(OFST-2,sp)
+1702  04c2 2401          	jrnc	L65
+1703  04c4 5c            	incw	x
+1704  04c5               L65:
+1705  04c5 02            	rlwa	x,a
+1706  04c6 1f02          	ldw	(OFST-1,sp),x
+1707  04c8 01            	rrwa	x,a
+1709                     ; 263    ptr += len;
+1711  04c9 1e02          	ldw	x,(OFST-1,sp)
+1712  04cb 72fb07        	addw	x,(OFST+4,sp)
+1713  04ce 1f02          	ldw	(OFST-1,sp),x
+1715                     ; 264    setSn_RX_RD(sn,ptr);
+1717  04d0 7b02          	ld	a,(OFST-1,sp)
+1718  04d2 88            	push	a
+1719  04d3 7b05          	ld	a,(OFST+2,sp)
+1720  04d5 97            	ld	xl,a
+1721  04d6 a604          	ld	a,#4
+1722  04d8 42            	mul	x,a
+1723  04d9 58            	sllw	x
+1724  04da 58            	sllw	x
+1725  04db 58            	sllw	x
+1726  04dc 1c2808        	addw	x,#10248
+1727  04df cd0000        	call	c_itolx
+1729  04e2 be02          	ldw	x,c_lreg+2
+1730  04e4 89            	pushw	x
+1731  04e5 be00          	ldw	x,c_lreg
+1732  04e7 89            	pushw	x
+1733  04e8 cd0055        	call	_WIZCHIP_WRITE
+1735  04eb 5b05          	addw	sp,#5
+1738  04ed 7b03          	ld	a,(OFST+0,sp)
+1739  04ef 88            	push	a
+1740  04f0 7b05          	ld	a,(OFST+2,sp)
+1741  04f2 97            	ld	xl,a
+1742  04f3 a604          	ld	a,#4
+1743  04f5 42            	mul	x,a
+1744  04f6 58            	sllw	x
+1745  04f7 58            	sllw	x
+1746  04f8 58            	sllw	x
+1747  04f9 1c2908        	addw	x,#10504
+1748  04fc cd0000        	call	c_itolx
+1750  04ff be02          	ldw	x,c_lreg+2
+1751  0501 89            	pushw	x
+1752  0502 be00          	ldw	x,c_lreg
+1753  0504 89            	pushw	x
+1754  0505 cd0055        	call	_WIZCHIP_WRITE
+1756  0508 5b05          	addw	sp,#5
+1757                     ; 265 }
+1761  050a 5b04          	addw	sp,#4
+1762  050c 81            	ret
+1775                     	xdef	_wiz_recv_ignore
+1776                     	xdef	_wiz_recv_data
+1777                     	xdef	_wiz_send_data
+1778                     	xdef	_getSn_RX_RSR
+1779                     	xdef	_getSn_TX_FSR
+1780                     	xdef	_WIZCHIP_WRITE_BUF
+1781                     	xdef	_WIZCHIP_READ_BUF
+1782                     	xdef	_WIZCHIP_WRITE
+1783                     	xdef	_WIZCHIP_READ
+1784                     	xref.b	_WIZCHIP
+1785                     	xref.b	c_lreg
+1786                     	xref.b	c_x
+1787                     	xref.b	c_y
+1806                     	xref	c_ladd
+1807                     	xref	c_rtol
+1808                     	xref	c_umul
+1809                     	xref	c_itolx
+1810                     	end
