@@ -50,12 +50,24 @@ crtsi0.sm8
 
 # Object files list - section reserved for STVD
 #<BEGIN OBJECT_FILES>
+Release\command_parser.o
+Release\dio.o
+Release\hal_gpio.o
+Release\hal_spi.o
+Release\hal_timer.o
+Release\hal_uart.o
+Release\message_formatter.o
+Release\relay_control.o
+Release\sensor_reader.o
 Release\socket.o
+Release\stm8_uart.o
 Release\stm8s_clk.o
 Release\stm8s_exti.o
 Release\stm8s_gpio.o
 Release\stm8s_spi.o
 Release\stm8s_uart1.o
+Release\tcp_server.o
+Release\uart_server.o
 Release\w5500.o
 Release\wizchip_conf.o
 Release\main.o

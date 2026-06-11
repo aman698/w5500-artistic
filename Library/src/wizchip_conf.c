@@ -50,8 +50,7 @@
 //*****************************************************************************/
 //A20140501 : for use the type - ptrdiff_t
 #include <stddef.h>
-//
-
+#include "w5500.h"
 #include "wizchip_conf.h"
 
 /////////////

@@ -2,27 +2,13 @@
 #define __STM8S_CONF_H
 
 #include "stm8s.h"
-#include "stm8s_gpio.h"
+
 #include "stm8s_clk.h"
+#include "stm8s_gpio.h"
 #include "stm8s_spi.h"
 #include "stm8s_exti.h"
 #include "stm8s_uart1.h"
-#include "stm8s.h"
-#include "stm8s_gpio.h"
-#include "config.h"
-#include "hal_spi.h"
-#include "hal_gpio.h"
-#include "stm8s_tim4.h"
-#include "hal_timer.h"
-#include "hal_uart.h"
-#include "relay_control.h"
-#include "sensor_reader.h"
-#include "command_parser.h"
-#include "message_formatter.h"
-#include "tcp_server.h"
-#include "uart_server.h"
-#include "wizchip_conf.h"
-#include "socket.h"
+
 #include "w5500.h"
 
 #define USE_FULL_ASSERT 0

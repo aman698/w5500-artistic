@@ -54,7 +54,6 @@
 #ifndef  _WIZCHIP_CONF_H_
 #define  _WIZCHIP_CONF_H_
 
-#include "w5500.h"
 #include "stm8s.h"
 /**
  * @brief Select WIZCHIP.
@@ -62,7 +61,7 @@
  *       ex> <code> #define \_WIZCHIP_      5500 </code>
  */
 #ifndef _WIZCHIP_
-#define _WIZCHIP_                      5500   // 5100, 5200, 5300, 5500
+#define _WIZCHIP_ 5500   // 5100, 5200, 5300, 5500
 #endif
 
 #define _WIZCHIP_IO_MODE_NONE_         0x0000

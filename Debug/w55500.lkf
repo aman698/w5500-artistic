@@ -50,12 +50,24 @@ crtsi0.sm8
 
 # Object files list - section reserved for STVD
 #<BEGIN OBJECT_FILES>
+Debug\command_parser.o
+Debug\dio.o
+Debug\hal_gpio.o
+Debug\hal_spi.o
+Debug\hal_timer.o
+Debug\hal_uart.o
+Debug\message_formatter.o
+Debug\relay_control.o
+Debug\sensor_reader.o
 Debug\socket.o
+Debug\stm8_uart.o
 Debug\stm8s_clk.o
 Debug\stm8s_exti.o
 Debug\stm8s_gpio.o
 Debug\stm8s_spi.o
 Debug\stm8s_uart1.o
+Debug\tcp_server.o
+Debug\uart_server.o
 Debug\w5500.o
 Debug\wizchip_conf.o
 Debug\main.o

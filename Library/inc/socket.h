@@ -350,6 +350,8 @@ typedef enum
    SIK_RECEIVED      = (1 << 2),    ///< data received
    SIK_TIMEOUT       = (1 << 3),    ///< timeout occurred
    SIK_SENT          = (1 << 4),    ///< send ok
+   //M20150410 : Remove the comma of last member
+   //SIK_ALL           = 0x1F,        ///< all interrupt
    SIK_ALL           = 0x1F         ///< all interrupt
 }sockint_kind;
 
@@ -359,17 +361,15 @@ typedef enum
  */
 typedef enum
 {
-   CS_SET_IOMODE,          ///< set socket IO mode with @ref SOCK_IO_BLOCK or @ref SOCK_IO_NONBLOCK
-   CS_GET_IOMODE,          ///< get socket IO mode
-   CS_GET_MAXTXBUF,        ///< get the size of socket buffer allocated in TX memory
-   CS_GET_MAXRXBUF,        ///< get the size of socket buffer allocated in RX memory
-   CS_CLR_INTERRUPT,       ///< clear the interrupt of socket with @ref sockint_kind
-   CS_GET_INTERRUPT,       ///< get the socket interrupt. refer to @ref sockint_kind
-#if _WIZCHIP_ > 5100
-   CS_SET_INTMASK,         ///< set the interrupt mask of socket with @ref sockint_kind, Not supported in W5100
-   CS_GET_INTMASK          ///< get the masked interrupt of socket. refer to @ref sockint_kind, Not supported in W5100
-#endif
-}ctlsock_type;
+   CS_SET_IOMODE = 0,
+   CS_GET_IOMODE,
+   CS_GET_MAXTXBUF,
+   CS_GET_MAXRXBUF,
+   CS_CLR_INTERRUPT,
+   CS_GET_INTERRUPT,
+   CS_SET_INTMASK,
+   CS_GET_INTMASK
+} ctlsock_type;
 
 
 /**
